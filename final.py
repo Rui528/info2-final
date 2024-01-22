@@ -67,18 +67,19 @@ class Block2:
 class App:
     def __init__(self):
         pyxel.init(100, 100)
+        self.restart_game()
+        pyxel.run(self.update, self.draw)
+
+    def restart_game(self):
         self.player = Player()
         self.block1 = Block1()
         self.block2 = Block2()
         self.score = 0
         self.gameover = False 
-
         self.x = 0
         self.y = 0
         self.w = 100
         self.h = 100
-
-        pyxel.run(self.update, self.draw)
 
     def update(self):
         if not self.gameover: 
@@ -96,7 +97,7 @@ class App:
                 self.score += 5
             
             if self.block2.y < 0:
-                self.block2.restart()
+                self.block2.restart()   
                 self.score += 5
 
             if self.player.touch(self.block1) or self.player.touch(self.block2):
@@ -112,6 +113,9 @@ class App:
                     self.w -= 2
                     self.h -= 2
 
+        elif pyxel.btnp(pyxel.KEY_SPACE):
+            self.restart_game()
+
 
     def draw(self):
         pyxel.cls(0)
@@ -124,7 +128,8 @@ class App:
         self.player.draw()
 
         if self.gameover:
-            pyxel.text(35, 50, "Game Over", 7)
+            pyxel.text(35, 30, "Game Over", 7)
+            pyxel.text(30, 60, "Press SPACE", 7)
 
 
 App()
